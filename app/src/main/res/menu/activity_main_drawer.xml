@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_about_me"
+            android:icon="@drawable/ic_menu_about_me"
+            android:title="About Me" />
+        <item
+            android:id="@+id/nav_education_and_training"
+            android:icon="@drawable/ic_menu_education"
+            android:title="Education And Training" />
+        <item
+            android:id="@+id/nav_work_experience"
+            android:icon="@drawable/ic_menu_work_experience"
+            android:title="Work Experience" />
+
+        <item
+            android:id="@+id/nav_projects"
+            android:icon="@drawable/ic_menu_projects"
+            android:title="Projects" />
+
+        <item
+            android:id="@+id/nav_skills"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Skills" />
+
+        <item
+            android:id="@+id/nav_languages"
+            android:icon="@drawable/ic_menu_languages"
+            android:title="Languages" />
+
+        <item
+            android:id="@+id/nav_hobbies_and_interests"
+            android:icon="@drawable/ic_menu_hobbies_and_interests"
+            android:title="Hobbies and Interests" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_blog"
+                android:icon="@drawable/ic_menu_blog"
+                android:title="Blog" />
+
+        </menu>
+    </item>
+
+</menu>
