@@ -9,11 +9,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
+import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
+import com.shahinjo.thingy.shahinportfolio.Managers.PortfolioEndPoint;
 import com.shahinjo.thingy.shahinportfolio.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,6 +55,44 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ConstantsManager.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        PortfolioEndPoint service = retrofit.create(PortfolioEndPoint.class);
+
+        final Call<PortfolioScheme> apiCall = service.getPortfolioData(1);
+
+        apiCall.enqueue(new Callback<PortfolioScheme>() {
+            @Override
+            public void onResponse(Call<PortfolioScheme> call, Response<PortfolioScheme> response) {
+
+                Log.i("RETROFIT", "onResponse Called");
+                PortfolioScheme result = response.body();
+
+                String message = String.format("Welcom %s \n %s", result.getProfileScheme().getPiFullName(), result.getProfileScheme().getPiPosition());
+
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<PortfolioScheme> call, Throwable t) {
+
+                Toast.makeText(MainActivity.this, "Service Call Failure \n" + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("RETROFIT", t.getMessage());
+
+            }
+        });
+
     }
 
     @Override

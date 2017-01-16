@@ -43,5 +43,10 @@ public interface ConstantsManager {
     String SOAP_ACTION_ROOT = "";
     String SOAP_NAMESPACE = "";
 
+    /**
+     * ConnectionManager
+     */
+
+    String BASE_URL = "http://shahinjo.000webhostapp.com/";
 
 }
