@@ -9,6 +9,9 @@ import android.widget.GridView;
 
 import com.shahinjo.thingy.shahinportfolio.Adapters.HobbiesAndInterestsAdapter;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.EducationTrainingScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProfileScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.HobbyInterestEntity;
 import com.shahinjo.thingy.shahinportfolio.R;
 
 import java.util.ArrayList;
@@ -29,7 +32,10 @@ public class HobbiesAndInterestsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_hobbies_and_interests, container, false);
         GridView gridView = (GridView) rootView.findViewById(R.id.grid_hobbies_and_interests);
-        gridView.setAdapter(new HobbiesAndInterestsAdapter(rootView.getContext(), new ArrayList<EducationTrainingScheme>()));
+
+        ArrayList<HobbyInterestScheme> hobbiesInterestsList = (ArrayList<HobbyInterestScheme>) getArguments().getSerializable("hobbies_interests_data");
+
+        gridView.setAdapter(new HobbiesAndInterestsAdapter(rootView.getContext(), hobbiesInterestsList));
 
         return rootView;
     }

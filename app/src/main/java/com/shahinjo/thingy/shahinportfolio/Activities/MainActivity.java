@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
 import com.shahinjo.thingy.shahinportfolio.Fragments.AboutMeFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.EducationAndTrainingFragment;
@@ -32,6 +33,8 @@ import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
 import com.shahinjo.thingy.shahinportfolio.Managers.InternalStorageManager;
 import com.shahinjo.thingy.shahinportfolio.Managers.PortfolioEndPoint;
 import com.shahinjo.thingy.shahinportfolio.R;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -212,6 +215,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_hobbies_and_interests) {
             fragment = new HobbiesAndInterestsFragment();
+
+            Bundle hobbiesBundle = new Bundle();
+            ArrayList<HobbyInterestScheme> hobbiesInterestsList = new ArrayList<>(portfolioData.getHobbyInterestScheme());
+            hobbiesBundle.putSerializable("hobbies_interest_data", hobbiesInterestsList);
+
+            fragment.setArguments(hobbiesBundle);
 
         } else if (id == R.id.nav_share) {
             //fragment = new AboutMeFragment();
