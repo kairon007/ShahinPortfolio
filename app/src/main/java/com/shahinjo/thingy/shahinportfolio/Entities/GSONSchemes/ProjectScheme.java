@@ -4,7 +4,9 @@ package com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProjectScheme {
+import java.io.Serializable;
+
+public class ProjectScheme implements Serializable {
 
     @SerializedName("p_id")
     @Expose

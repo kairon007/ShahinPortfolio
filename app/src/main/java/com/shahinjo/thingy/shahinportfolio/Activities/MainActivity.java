@@ -130,13 +130,15 @@ public class MainActivity extends AppCompatActivity
 
         if (portfolioData == null) {
 
-            PortfolioScheme storedData = (PortfolioScheme) InternalStorageManager.readPortfolioListFromFile(MainActivity.this, ConstantsManager.FILE_NAME_PORTFOLIO);
+//            Object object = InternalStorageManager.readPortfolioListFromFile(MainActivity.this, ConstantsManager.FILE_NAME_PORTFOLIO);
+//
+//            if (object != null) {
+//                portfolioData = (PortfolioScheme) object;
+//            } else {
+//                retrievePortfolioData();
+//            }
 
-            if (storedData != null) {
-                portfolioData = storedData;
-            } else {
-                retrievePortfolioData();
-            }
+            retrievePortfolioData();
 
         }
 
@@ -186,6 +188,12 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         if (id == R.id.nav_about_me) {
             fragment = new AboutMeFragment();
+
+            Bundle profileBundle = new Bundle();
+            profileBundle.putSerializable("profile_data", portfolioData.getProfileScheme());
+
+            fragment.setArguments(profileBundle);
+
 
         } else if (id == R.id.nav_education_and_training) {
             fragment = new EducationAndTrainingFragment();

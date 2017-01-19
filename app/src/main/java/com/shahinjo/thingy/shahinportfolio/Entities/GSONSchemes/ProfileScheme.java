@@ -4,7 +4,9 @@ package com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProfileScheme {
+import java.io.Serializable;
+
+public class ProfileScheme implements Serializable {
 
     @SerializedName("pi_id")
     @Expose
