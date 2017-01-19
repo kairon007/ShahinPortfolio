@@ -21,7 +21,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.LanguageScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.WorkExperienceScheme;
 import com.shahinjo.thingy.shahinportfolio.Fragments.AboutMeFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.EducationAndTrainingFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.HobbiesAndInterestsFragment;
@@ -204,6 +206,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_work_experience) {
             fragment = new WorkExperienceFragment();
 
+            Bundle workExperienceBundle = new Bundle();
+            ArrayList<WorkExperienceScheme> workExperienceList = new ArrayList<>(portfolioData.getWorkExperienceScheme());
+            workExperienceBundle.putSerializable("work_experience_data", workExperienceList);
+
+            fragment.setArguments(workExperienceBundle);
+
         } else if (id == R.id.nav_projects) {
             fragment = new ProjectsFragment();
 
@@ -212,6 +220,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_languages) {
             fragment = new LanguagesFragment();
+
+            Bundle languagesBundle = new Bundle();
+            ArrayList<LanguageScheme> languagesList = new ArrayList<>(portfolioData.getLanguageScheme());
+            languagesBundle.putSerializable("languages_data", languagesList);
+
+            fragment.setArguments(languagesBundle);
 
         } else if (id == R.id.nav_hobbies_and_interests) {
             fragment = new HobbiesAndInterestsFragment();
