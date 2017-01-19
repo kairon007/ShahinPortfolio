@@ -35,7 +35,9 @@ public class HobbiesAndInterestsFragment extends Fragment {
 
         ArrayList<HobbyInterestScheme> hobbiesInterestsList = (ArrayList<HobbyInterestScheme>) getArguments().getSerializable("hobbies_interests_data");
 
-        gridView.setAdapter(new HobbiesAndInterestsAdapter(rootView.getContext(), hobbiesInterestsList));
+        if(hobbiesInterestsList != null) {
+            gridView.setAdapter(new HobbiesAndInterestsAdapter(rootView.getContext(), hobbiesInterestsList));
+        }
 
         return rootView;
     }
