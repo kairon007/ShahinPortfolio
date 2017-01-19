@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity
 
             Bundle hobbiesBundle = new Bundle();
             ArrayList<HobbyInterestScheme> hobbiesInterestsList = new ArrayList<>(portfolioData.getHobbyInterestScheme());
-            hobbiesBundle.putSerializable("hobbies_interest_data", hobbiesInterestsList);
+            hobbiesBundle.putSerializable("hobbies_interests_data", hobbiesInterestsList);
 
             fragment.setArguments(hobbiesBundle);
 
