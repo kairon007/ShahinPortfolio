@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,7 +22,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
 import com.shahinjo.thingy.shahinportfolio.Fragments.AboutMeFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.EducationAndTrainingFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.HobbiesAndInterestsFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.LanguagesFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.ProjectsFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.SkillsFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.WorkExperienceFragment;
 import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
+import com.shahinjo.thingy.shahinportfolio.Managers.InternalStorageManager;
 import com.shahinjo.thingy.shahinportfolio.Managers.PortfolioEndPoint;
 import com.shahinjo.thingy.shahinportfolio.R;
 
@@ -38,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
+
+    PortfolioScheme portfolioData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+
+    }
+
+    private void retrievePortfolioData() {
+
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
@@ -83,10 +98,12 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<PortfolioScheme> call, Response<PortfolioScheme> response) {
 
                 Log.i("RETROFIT", "onResponse Called");
-                PortfolioScheme result = response.body();
 
-                String message = String.format("Welcom %s \n %s", result.getProfileScheme().getPiFullName(), result.getProfileScheme().getPiPosition());
+                portfolioData = response.body();
 
+                storePortfolioInternally();
+
+                String message = String.format("Welcom %s \n %s", portfolioData.getProfileScheme().getPiFullName(), portfolioData.getProfileScheme().getPiPosition());
                 Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
 
 
@@ -100,6 +117,28 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+    }
+
+    private void storePortfolioInternally() {
+        InternalStorageManager.writePortfolioListToFile(MainActivity.this, ConstantsManager.FILE_NAME_PORTFOLIO, portfolioData);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (portfolioData == null) {
+
+            PortfolioScheme storedData = (PortfolioScheme) InternalStorageManager.readPortfolioListFromFile(MainActivity.this, ConstantsManager.FILE_NAME_PORTFOLIO);
+
+            if (storedData != null) {
+                portfolioData = storedData;
+            } else {
+                retrievePortfolioData();
+            }
+
+        }
 
     }
 
@@ -140,32 +179,47 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         FragmentManager fragmentManager = getSupportFragmentManager();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         int id = item.getItemId();
 
+        Fragment fragment = null;
         if (id == R.id.nav_about_me) {
-            AboutMeFragment fragment = new AboutMeFragment();
-            fragmentManager.beginTransaction().replace(R.id.ll_fragment_contents, fragment).commit();
+            fragment = new AboutMeFragment();
 
         } else if (id == R.id.nav_education_and_training) {
+            fragment = new EducationAndTrainingFragment();
 
         } else if (id == R.id.nav_work_experience) {
+            fragment = new WorkExperienceFragment();
 
         } else if (id == R.id.nav_projects) {
+            fragment = new ProjectsFragment();
 
         } else if (id == R.id.nav_skills) {
+            fragment = new SkillsFragment();
 
         } else if (id == R.id.nav_languages) {
+            fragment = new LanguagesFragment();
 
         } else if (id == R.id.nav_hobbies_and_interests) {
+            fragment = new HobbiesAndInterestsFragment();
 
         } else if (id == R.id.nav_share) {
+            //fragment = new AboutMeFragment();
 
         } else if (id == R.id.nav_blog) {
-
+            //fragment = new AboutMeFragment();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (fragment == null) {
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
+
+        fragmentManager.beginTransaction().replace(R.id.ll_fragment_contents, fragment).commit();
+
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
