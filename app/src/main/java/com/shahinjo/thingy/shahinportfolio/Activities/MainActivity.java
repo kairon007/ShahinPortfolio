@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.EducationTrainingScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.LanguageScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
@@ -212,6 +213,16 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_education_and_training) {
             fragment = new EducationAndTrainingFragment();
+
+            Bundle educationBundle = new Bundle();
+
+            if (portfolioData != null) {
+                ArrayList<EducationTrainingScheme> educationList = new ArrayList<>(portfolioData.getEducationTrainingScheme());
+
+                educationBundle.putSerializable("education_data", educationList);
+
+                fragment.setArguments(educationBundle);
+            }
 
         } else if (id == R.id.nav_work_experience) {
             fragment = new WorkExperienceFragment();

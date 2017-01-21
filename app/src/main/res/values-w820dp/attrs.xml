@@ -8,4 +8,16 @@
     <declare-styleable name="DonutChart">
         <attr name="radius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="timeline_style">
+        <attr name="marker" format="color|reference" />
+        <attr name="line" format="color|reference" />
+        <attr name="marker_size" format="dimension" />
+        <attr name="line_size" format="dimension" />
+        <attr name="line_orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="markerInCenter" format="boolean" />
+    </declare-styleable>
 </resources>
