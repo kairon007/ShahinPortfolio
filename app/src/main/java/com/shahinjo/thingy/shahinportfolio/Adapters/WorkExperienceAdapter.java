@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.WorkExperienceScheme;
 import com.shahinjo.thingy.shahinportfolio.R;
 
@@ -28,15 +26,6 @@ public class WorkExperienceAdapter extends BaseAdapter {
         this.context = context;
         this.workExperienceList = workExperienceList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-    }
-
-    public class ViewHolder {
-
-        TextView tvYearsCount;
-        TextView tvTitle;
-        TextView tvPeriod;
-        TextView tvLocation;
 
     }
 
@@ -61,14 +50,30 @@ public class WorkExperienceAdapter extends BaseAdapter {
         ViewHolder holder = new ViewHolder();
         View cellView;
 
-        cellView = inflater.inflate(R.layout.cell_hobbies_and_interests, null);
+        cellView = inflater.inflate(R.layout.cell_work_experience, null);
 
-//        holder.tvTitle = (TextView) cellView.findViewById(R.id.tv_name);
-//        holder.ivLogo = (ImageView) cellView.findViewById(R.id.iv_image);
+        holder.tvYearsCount = (TextView) cellView.findViewById(R.id.tv_years_count);
+        holder.tvPosition = (TextView) cellView.findViewById(R.id.tv_position);
+        holder.tvPeriod = (TextView) cellView.findViewById(R.id.tv_period);
+        holder.tvLocation = (TextView) cellView.findViewById(R.id.tv_location);
+
+        String period = String.format("%s  -  %s", workExperienceList.get(position).getWeFrom(), workExperienceList.get(position).getWeTo());
+
+        holder.tvYearsCount.setText(workExperienceList.get(position).getWeYears());
+        holder.tvPosition.setText(workExperienceList.get(position).getWePosition());
+        holder.tvPeriod.setText(period);
+        holder.tvLocation.setText(workExperienceList.get(position).getWeCompanyOrTeam());
 
 
+        return cellView;
+    }
 
+    public class ViewHolder {
 
-        return null;
+        TextView tvYearsCount;
+        TextView tvPosition;
+        TextView tvPeriod;
+        TextView tvLocation;
+
     }
 }

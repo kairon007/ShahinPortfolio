@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DoughnutView">
+        <attr name="fdColorPrimary" format="color" />
+        <attr name="fdColorSecondary" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="DonutChart">
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+</resources>

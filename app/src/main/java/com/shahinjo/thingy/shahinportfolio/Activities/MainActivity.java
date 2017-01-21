@@ -23,6 +23,8 @@ import com.google.gson.GsonBuilder;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.LanguageScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProjectScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.SkillScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.WorkExperienceScheme;
 import com.shahinjo.thingy.shahinportfolio.Fragments.AboutMeFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.EducationAndTrainingFragment;
@@ -106,6 +108,10 @@ public class MainActivity extends AppCompatActivity
 
                 portfolioData = response.body();
 
+                if (portfolioData == null) {
+                    Toast.makeText(MainActivity.this, "Something wrong happened, Please try later.", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 storePortfolioInternally();
 
                 String message = String.format("Welcom %s \n %s", portfolioData.getProfileScheme().getPiFullName(), portfolioData.getProfileScheme().getPiPosition());
@@ -191,13 +197,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         Fragment fragment = null;
+
         if (id == R.id.nav_about_me) {
             fragment = new AboutMeFragment();
 
             Bundle profileBundle = new Bundle();
-            profileBundle.putSerializable("profile_data", portfolioData.getProfileScheme());
 
-            fragment.setArguments(profileBundle);
+            if (portfolioData != null) {
+                profileBundle.putSerializable("profile_data", portfolioData.getProfileScheme());
+
+                fragment.setArguments(profileBundle);
+            }
 
 
         } else if (id == R.id.nav_education_and_training) {
@@ -207,34 +217,67 @@ public class MainActivity extends AppCompatActivity
             fragment = new WorkExperienceFragment();
 
             Bundle workExperienceBundle = new Bundle();
-            ArrayList<WorkExperienceScheme> workExperienceList = new ArrayList<>(portfolioData.getWorkExperienceScheme());
-            workExperienceBundle.putSerializable("work_experience_data", workExperienceList);
 
-            fragment.setArguments(workExperienceBundle);
+            if (portfolioData != null) {
+                ArrayList<WorkExperienceScheme> workExperienceList = new ArrayList<>(portfolioData.getWorkExperienceScheme());
+                //Collections.reverse(workExperienceList);
+                workExperienceBundle.putSerializable("work_experience_data", workExperienceList);
+
+                fragment.setArguments(workExperienceBundle);
+            }
 
         } else if (id == R.id.nav_projects) {
             fragment = new ProjectsFragment();
 
+            Bundle projectsBundle = new Bundle();
+
+            if (portfolioData != null) {
+                ArrayList<ProjectScheme> projectsList = new ArrayList<>(portfolioData.getProjectScheme());
+                projectsBundle.putSerializable("projects_data", projectsList);
+
+                fragment.setArguments(projectsBundle);
+
+            }
+
+
         } else if (id == R.id.nav_skills) {
             fragment = new SkillsFragment();
+
+            Bundle skillsBundle = new Bundle();
+
+            if (portfolioData != null) {
+                ArrayList<SkillScheme> skillsList = new ArrayList<>(portfolioData.getSkillScheme());
+                skillsBundle.putSerializable("skills_data", skillsList);
+
+                fragment.setArguments(skillsBundle);
+
+            }
+
 
         } else if (id == R.id.nav_languages) {
             fragment = new LanguagesFragment();
 
             Bundle languagesBundle = new Bundle();
-            ArrayList<LanguageScheme> languagesList = new ArrayList<>(portfolioData.getLanguageScheme());
-            languagesBundle.putSerializable("languages_data", languagesList);
 
-            fragment.setArguments(languagesBundle);
+            if (portfolioData != null) {
+                ArrayList<LanguageScheme> languagesList = new ArrayList<>(portfolioData.getLanguageScheme());
+                languagesBundle.putSerializable("languages_data", languagesList);
+
+                fragment.setArguments(languagesBundle);
+
+            }
 
         } else if (id == R.id.nav_hobbies_and_interests) {
             fragment = new HobbiesAndInterestsFragment();
 
             Bundle hobbiesBundle = new Bundle();
-            ArrayList<HobbyInterestScheme> hobbiesInterestsList = new ArrayList<>(portfolioData.getHobbyInterestScheme());
-            hobbiesBundle.putSerializable("hobbies_interests_data", hobbiesInterestsList);
 
-            fragment.setArguments(hobbiesBundle);
+            if (portfolioData != null) {
+                ArrayList<HobbyInterestScheme> hobbiesInterestsList = new ArrayList<>(portfolioData.getHobbyInterestScheme());
+                hobbiesBundle.putSerializable("hobbies_interests_data", hobbiesInterestsList);
+
+                fragment.setArguments(hobbiesBundle);
+            }
 
         } else if (id == R.id.nav_share) {
             //fragment = new AboutMeFragment();
