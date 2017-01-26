@@ -20,6 +20,8 @@ public class TimeLineViewHolder extends RecyclerView.ViewHolder {
     public TimeLineViewHolder(View itemView, int viewType) {
         super(itemView);
         period = (TextView) itemView.findViewById(R.id.tv_period);
+        degreeAndMajor = (TextView) itemView.findViewById(R.id.tv_major_and_degree);
+        location = (TextView) itemView.findViewById(R.id.tv_location);
         mTimelineView = (TimelineView) itemView.findViewById(R.id.time_marker);
         mTimelineView.initLine(viewType);
     }

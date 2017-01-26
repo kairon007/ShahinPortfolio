@@ -50,7 +50,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
         TimeLineModel timeLineModel = timeLineData.get(position);
 
         holder.period.setText(timeLineModel.getPeriod());
-        holder.degreeAndMajor.setText(String.format("%s, in %s", timeLineModel.getDegree(), timeLineModel.getMajor()));
+        holder.degreeAndMajor.setText(timeLineModel.getDegree() + " - " + timeLineModel.getMajor());//String.format("%s, in %s", timeLineModel.getDegree(), timeLineModel.getMajor())
         holder.location.setText(timeLineModel.getLocation());
 
     }

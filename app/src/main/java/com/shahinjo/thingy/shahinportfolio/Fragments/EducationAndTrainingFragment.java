@@ -42,14 +42,18 @@ public class EducationAndTrainingFragment extends Fragment {
         this.context = getActivity();//rootView.getContext();
         educationData = (ArrayList<EducationTrainingScheme>) getArguments().getSerializable("education_data");
 
+        timelineData = new ArrayList<>();
+
         for (int i = 0; i < educationData.size(); i++) {
-            timelineData = new ArrayList<>();
+
             EducationTrainingScheme currentScheme = educationData.get(i);
             TimeLineModel newModel = new TimeLineModel();
             newModel.setPeriod(String.format("%s - %s", currentScheme.getEtFrom(), currentScheme.getEtTo()));
             newModel.setDegree(currentScheme.getEtEducationDegree());
             newModel.setMajor(currentScheme.getEtMajor());
             newModel.setLocation(currentScheme.getEtInstitution());
+
+            timelineData.add(newModel);
         }
 
         orientation = Orientation.vertical;

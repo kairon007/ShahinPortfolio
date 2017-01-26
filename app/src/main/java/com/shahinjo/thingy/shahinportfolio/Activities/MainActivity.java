@@ -40,6 +40,7 @@ import com.shahinjo.thingy.shahinportfolio.Managers.PortfolioEndPoint;
 import com.shahinjo.thingy.shahinportfolio.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import retrofit2.Call;
 import retrofit2.Callback;

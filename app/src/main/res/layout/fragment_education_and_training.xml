@@ -6,12 +6,6 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        style="@android:style/TextAppearance.Large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recycler View Below" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
