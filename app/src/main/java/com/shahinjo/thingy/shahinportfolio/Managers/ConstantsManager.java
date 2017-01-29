@@ -35,6 +35,26 @@ public interface ConstantsManager {
     String KEY_PROFILE_ADDRESS = "prefs.profile.address";
     String KEY_PROFILE_PERSONAL_STATEMENT = "prefs.profile.personal_statement";
 
+    String KEY_BUNDLE_PROFILE = "profile_data";
+    String KEY_BUNDLE_EDUCATION = "education_data";
+    String KEY_BUNDLE_WORK_EXPERIENCE = "work_experience_data";
+    String KEY_BUNDLE_PROJECTS = "projects_data";
+    String KEY_BUNDLE_SKILLS = "skills_data";
+    String KEY_BUNDLE_LANGUAGES = "languages_data";
+    String KEY_BUNDLE_HOBBIES_INTERESTS = "hobbies_interests_data";
+
+    String KEY_BUNDLE_BIRTH_DATE = "birth_date";
+    String KEY_BUNDLE_NATIONALITY = "nationality";
+    String KEY_BUNDLE_MARTIAL_STATE = "martial_state";
+    String KEY_BUNDLE_ADDRESS = "address";
+
+    String KEY_BUNDLE_PERSONAL_STATEMENT = "personal_statement";
+
+
+    String KEY_BUNDLE_CONTACT = "contact_info";
+
+
+
 
     /**
      * SOAPConnectionManager

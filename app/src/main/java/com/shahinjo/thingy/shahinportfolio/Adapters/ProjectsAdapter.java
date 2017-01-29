@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProjectScheme;
+import com.shahinjo.thingy.shahinportfolio.Managers.TextManager;
 import com.shahinjo.thingy.shahinportfolio.R;
 
 import java.util.ArrayList;
@@ -49,9 +50,9 @@ public class ProjectsAdapter extends ArrayAdapter<ProjectScheme> {
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
             holder.tvTeam = (TextView) convertView.findViewById(R.id.tv_team);
 
-            holder.tvName.setText(currentProject.getPName());
-            holder.tvDescription.setText(currentProject.getPDescription());
-            holder.tvTeam.setText(currentProject.getPTeamCompany());
+            holder.tvName.setText(TextManager.removeBreakLinCharacters(currentProject.getPName()));
+            holder.tvDescription.setText(TextManager.removeBreakLinCharacters(currentProject.getPDescription()));
+            holder.tvTeam.setText(TextManager.removeBreakLinCharacters(currentProject.getPTeamCompany()));
 
             convertView.setTag(holder);
 

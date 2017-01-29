@@ -3,19 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dip">
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="125dip"
         android:layout_height="125dip"
-        android:src="@drawable/ic_menu_gallery"/>
+        android:src="@drawable/ic_menu_gallery" />
 
     <TextView
         android:id="@+id/tv_name"
         style="@android:style/TextAppearance.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text"/>
+        android:text="Text"
+        android:textColor="@color/colorPrimary" />
 
 </LinearLayout>

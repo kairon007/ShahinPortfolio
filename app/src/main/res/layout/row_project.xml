@@ -3,13 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="10dip"
+    android:paddingTop="10dip">
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_menu_blog" />
+        android:layout_margin="15dip"
+        app:srcCompat="@drawable/ic_profile_picture" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,21 +21,30 @@
 
         <TextView
             android:id="@+id/tv_name"
+            style="@android:style/TextAppearance.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name" />
+            android:layout_marginBottom="10dip"
+            android:text="Name"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_description"
+            style="@android:style/TextAppearance.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description" />
+            android:layout_marginBottom="5dip"
+            android:text="Description"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_team"
+            style="@android:style/TextAppearance.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Team" />
+            android:text="Team"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="italic" />
 
 
     </LinearLayout>

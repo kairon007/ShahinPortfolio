@@ -31,6 +31,7 @@ import com.shahinjo.thingy.shahinportfolio.Fragments.AboutMeFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.EducationAndTrainingFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.HobbiesAndInterestsFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.LanguagesFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.ProfileFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.ProjectsFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.SkillsFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.WorkExperienceFragment;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     PortfolioScheme portfolioData;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        fragmentManager = getSupportFragmentManager();
 
 
     }
@@ -116,8 +119,20 @@ public class MainActivity extends AppCompatActivity
                 }
                 storePortfolioInternally();
 
-                String message = String.format("Welcom %s \n %s", portfolioData.getProfileScheme().getPiFullName(), portfolioData.getProfileScheme().getPiPosition());
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+                Fragment fragment = new ProfileFragment();
+
+                Bundle profileBundle = new Bundle();
+
+                if (portfolioData != null) {
+                    profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_PROFILE, portfolioData.getProfileScheme());
+
+                    fragment.setArguments(profileBundle);
+                }
+
+                fragmentManager.beginTransaction().replace(R.id.ll_fragment_contents, fragment).commit();
+
+                //String message = String.format("Welcom %s \n %s", portfolioData.getProfileScheme().getPiFullName(), portfolioData.getProfileScheme().getPiPosition());
+                //Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
 
 
             }
@@ -193,7 +208,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         int id = item.getItemId();
@@ -201,12 +216,12 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_about_me) {
-            fragment = new AboutMeFragment();
+            fragment = new ProfileFragment();
 
             Bundle profileBundle = new Bundle();
 
             if (portfolioData != null) {
-                profileBundle.putSerializable("profile_data", portfolioData.getProfileScheme());
+                profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_PROFILE, portfolioData.getProfileScheme());
 
                 fragment.setArguments(profileBundle);
             }
@@ -220,7 +235,7 @@ public class MainActivity extends AppCompatActivity
             if (portfolioData != null) {
                 ArrayList<EducationTrainingScheme> educationList = new ArrayList<>(portfolioData.getEducationTrainingScheme());
 
-                educationBundle.putSerializable("education_data", educationList);
+                educationBundle.putSerializable(ConstantsManager.KEY_BUNDLE_EDUCATION, educationList);
 
                 fragment.setArguments(educationBundle);
             }
@@ -233,7 +248,7 @@ public class MainActivity extends AppCompatActivity
             if (portfolioData != null) {
                 ArrayList<WorkExperienceScheme> workExperienceList = new ArrayList<>(portfolioData.getWorkExperienceScheme());
                 //Collections.reverse(workExperienceList);
-                workExperienceBundle.putSerializable("work_experience_data", workExperienceList);
+                workExperienceBundle.putSerializable(ConstantsManager.KEY_BUNDLE_WORK_EXPERIENCE, workExperienceList);
 
                 fragment.setArguments(workExperienceBundle);
             }
@@ -245,7 +260,7 @@ public class MainActivity extends AppCompatActivity
 
             if (portfolioData != null) {
                 ArrayList<ProjectScheme> projectsList = new ArrayList<>(portfolioData.getProjectScheme());
-                projectsBundle.putSerializable("projects_data", projectsList);
+                projectsBundle.putSerializable(ConstantsManager.KEY_BUNDLE_PROJECTS, projectsList);
 
                 fragment.setArguments(projectsBundle);
 
@@ -259,7 +274,7 @@ public class MainActivity extends AppCompatActivity
 
             if (portfolioData != null) {
                 ArrayList<SkillScheme> skillsList = new ArrayList<>(portfolioData.getSkillScheme());
-                skillsBundle.putSerializable("skills_data", skillsList);
+                skillsBundle.putSerializable(ConstantsManager.KEY_BUNDLE_SKILLS, skillsList);
 
                 fragment.setArguments(skillsBundle);
 
@@ -273,7 +288,7 @@ public class MainActivity extends AppCompatActivity
 
             if (portfolioData != null) {
                 ArrayList<LanguageScheme> languagesList = new ArrayList<>(portfolioData.getLanguageScheme());
-                languagesBundle.putSerializable("languages_data", languagesList);
+                languagesBundle.putSerializable(ConstantsManager.KEY_BUNDLE_LANGUAGES, languagesList);
 
                 fragment.setArguments(languagesBundle);
 
@@ -286,7 +301,7 @@ public class MainActivity extends AppCompatActivity
 
             if (portfolioData != null) {
                 ArrayList<HobbyInterestScheme> hobbiesInterestsList = new ArrayList<>(portfolioData.getHobbyInterestScheme());
-                hobbiesBundle.putSerializable("hobbies_interests_data", hobbiesInterestsList);
+                hobbiesBundle.putSerializable(ConstantsManager.KEY_BUNDLE_HOBBIES_INTERESTS, hobbiesInterestsList);
 
                 fragment.setArguments(hobbiesBundle);
             }
