@@ -1,22 +1,18 @@
 package com.shahinjo.thingy.shahinportfolio.Fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shahinjo.thingy.shahinportfolio.Activities.MainActivity;
 import com.shahinjo.thingy.shahinportfolio.Adapters.ProfilePagerAdapter;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProfileScheme;
 import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
@@ -51,7 +47,7 @@ public class ProfileFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_personal));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_statement));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_contact));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_contact_light));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
