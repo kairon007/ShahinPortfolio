@@ -1,6 +1,7 @@
 package com.shahinjo.thingy.shahinportfolio.Fragments;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.shahinjo.thingy.shahinportfolio.Adapters.ProfilePagerAdapter;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProfileScheme;
 import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
@@ -37,9 +39,12 @@ public class ProfileFragment extends Fragment {
 
         ProfileScheme profileData = (ProfileScheme) getArguments().getSerializable(ConstantsManager.KEY_BUNDLE_PROFILE);
 
-        holder.ivProfilePicture = (ImageView) view.findViewById(R.id.iv_profile_picture);
+        holder.ivProfilePicture = (SimpleDraweeView) view.findViewById(R.id.iv_profile_picture);
         holder.tvName = (TextView) view.findViewById(R.id.tv_name);
         holder.tvPosition = (TextView) view.findViewById(R.id.tv_position);
+
+        Uri imageUri = Uri.parse(profileData.getPiProfileImagePath());
+        holder.ivProfilePicture.setImageURI(imageUri);
 
         holder.tvName.setText(profileData.getPiFullName());
         holder.tvPosition.setText(profileData.getPiPosition());
@@ -83,7 +88,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private class ViewHolder {
-        ImageView ivProfilePicture;
+        SimpleDraweeView ivProfilePicture;
         TextView tvName, tvPosition;
     }
 }

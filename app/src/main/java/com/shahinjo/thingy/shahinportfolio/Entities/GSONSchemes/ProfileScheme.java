@@ -14,6 +14,9 @@ public class ProfileScheme implements Serializable {
     @SerializedName("pi_full_name")
     @Expose
     private String piFullName;
+    @SerializedName("pi_profile_image_path")
+    @Expose
+    private String piProfileImagePath;
     @SerializedName("pi_position")
     @Expose
     private String piPosition;
@@ -97,4 +100,11 @@ public class ProfileScheme implements Serializable {
         this.piAddress = piAddress;
     }
 
+    public String getPiProfileImagePath() {
+        return piProfileImagePath;
+    }
+
+    public void setPiProfileImagePath(String piProfileImagePath) {
+        this.piProfileImagePath = piProfileImagePath;
+    }
 }

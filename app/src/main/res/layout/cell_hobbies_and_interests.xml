@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="20dip">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_image"
         android:layout_width="125dip"
         android:layout_height="125dip"
-        android:src="@drawable/ic_menu_gallery" />
+        android:layout_centerHorizontal="true"
+        fresco:placeholderImage="@drawable/myPlaceholderImage" />
+
+    <!--<ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="125dip"
+        android:layout_height="125dip"
+        android:src="@drawable/ic_menu_gallery" />-->
 
     <TextView
         android:id="@+id/tv_name"

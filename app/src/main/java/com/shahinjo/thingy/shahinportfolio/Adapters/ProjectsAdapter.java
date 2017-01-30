@@ -1,6 +1,7 @@
 package com.shahinjo.thingy.shahinportfolio.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProjectScheme;
 import com.shahinjo.thingy.shahinportfolio.Managers.TextManager;
 import com.shahinjo.thingy.shahinportfolio.R;
@@ -45,14 +47,18 @@ public class ProjectsAdapter extends ArrayAdapter<ProjectScheme> {
             convertView = inflater.inflate(R.layout.row_project, null);
             holder = new ViewHolder();
 
-            holder.ivImage = (ImageView) convertView.findViewById(R.id.iv_image);
+            Uri imageUri = Uri.parse(currentProject.getPImagePath());
+
+            holder.ivImage = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
             holder.tvDescription = (TextView) convertView.findViewById(R.id.tv_description);
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
             holder.tvTeam = (TextView) convertView.findViewById(R.id.tv_team);
+            holder.ivImage = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
 
             holder.tvName.setText(TextManager.removeBreakLinCharacters(currentProject.getPName()));
             holder.tvDescription.setText(TextManager.removeBreakLinCharacters(currentProject.getPDescription()));
             holder.tvTeam.setText(TextManager.removeBreakLinCharacters(currentProject.getPTeamCompany()));
+            holder.ivImage.setImageURI(imageUri);
 
             convertView.setTag(holder);
 
@@ -69,7 +75,7 @@ public class ProjectsAdapter extends ArrayAdapter<ProjectScheme> {
 
     class ViewHolder {
 
-        ImageView ivImage;
+        SimpleDraweeView ivImage;
         TextView tvName;
         TextView tvDescription;
         TextView tvTeam;
