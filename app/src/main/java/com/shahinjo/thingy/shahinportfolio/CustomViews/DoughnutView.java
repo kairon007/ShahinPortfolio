@@ -92,7 +92,7 @@ public class DoughnutView extends ViewGroup {
 
         // attempt to get any values from the xml
         try {
-            colorPrimary = a.getColor(R.styleable.DoughnutView_fdColorPrimary, Color.rgb(225, 140, 80));
+            colorPrimary = a.getColor(R.styleable.DoughnutView_fdColorPrimary, Color.rgb(48, 63, 159));
             colorSecondary = a.getColor(R.styleable.DoughnutView_fdColorSecondary, Color.rgb(200, 200, 200));
         } finally {
             a.recycle();

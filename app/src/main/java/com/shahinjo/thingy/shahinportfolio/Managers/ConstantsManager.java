@@ -69,4 +69,17 @@ public interface ConstantsManager {
 
     String BASE_URL = "http://shahinjo.000webhostapp.com/";
 
+    /**
+     * Operations
+     */
+
+    int OPERATION_PERSONAL_INFO = 1;
+    int OPERATION_EDUCATION = 2;
+    int OPERATION_WORK_EXPERIENCE = 3;
+    int OPERATION_PROJECTS = 5;
+    int OPERATION_SKILLS = 4;
+    int OPERATION_LANGUAGES = 6;
+    int OPERATION_HOBBIES_AND_INTERESTS = 7;
+
+
 }

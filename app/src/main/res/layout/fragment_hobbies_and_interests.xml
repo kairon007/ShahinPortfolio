@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <GridView
         android:id="@+id/grid_hobbies_and_interests"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnOrderPreserved="true"
-        android:rowOrderPreserved="true"
+        android:numColumns="2"
         android:overScrollMode="ifContentScrolls"
-        android:numColumns="2">
+        android:rowOrderPreserved="true">
 
     </GridView>
 
-
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

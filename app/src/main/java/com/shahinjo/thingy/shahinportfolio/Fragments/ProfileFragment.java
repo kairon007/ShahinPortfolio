@@ -8,26 +8,41 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.shahinjo.thingy.shahinportfolio.Activities.MainActivity;
 import com.shahinjo.thingy.shahinportfolio.Adapters.ProfilePagerAdapter;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProfileScheme;
 import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
+import com.shahinjo.thingy.shahinportfolio.Managers.PortfolioEndPoint;
 import com.shahinjo.thingy.shahinportfolio.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by y.shahin on 1/29/2017.
  */
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    ProfileScheme profileData;
     private FragmentActivity context;
-
+    private ViewHolder holder;
     public ProfileFragment() {
     }
 
@@ -35,19 +50,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        ViewHolder holder = new ViewHolder();
+        holder = new ViewHolder();
 
-        ProfileScheme profileData = (ProfileScheme) getArguments().getSerializable(ConstantsManager.KEY_BUNDLE_PROFILE);
+        profileData = (ProfileScheme) getArguments().getSerializable(ConstantsManager.KEY_BUNDLE_PROFILE);
 
-        holder.ivProfilePicture = (SimpleDraweeView) view.findViewById(R.id.iv_profile_picture);
-        holder.tvName = (TextView) view.findViewById(R.id.tv_name);
-        holder.tvPosition = (TextView) view.findViewById(R.id.tv_position);
+        onCreateViews(view);
 
-        Uri imageUri = Uri.parse(profileData.getPiProfileImagePath());
-        holder.ivProfilePicture.setImageURI(imageUri);
-
-        holder.tvName.setText(profileData.getPiFullName());
-        holder.tvPosition.setText(profileData.getPiPosition());
+        fillViews();
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_personal));
@@ -81,14 +90,90 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    private void onCreateViews(View view) {
+        holder.ivProfilePicture = (SimpleDraweeView) view.findViewById(R.id.iv_profile_picture);
+        holder.tvName = (TextView) view.findViewById(R.id.tv_name);
+        holder.tvPosition = (TextView) view.findViewById(R.id.tv_position);
+        holder.swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+
+    }
+
+    private void fillViews() {
+        Uri imageUri = Uri.parse(profileData.getPiProfileImagePath());
+        holder.ivProfilePicture.setImageURI(imageUri);
+
+        holder.tvName.setText(profileData.getPiFullName());
+        holder.tvPosition.setText(profileData.getPiPosition());
+
+        holder.swipeContainer.setOnRefreshListener(this);
+    }
+
+    private void retrievePortfolioData() {
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ConstantsManager.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        PortfolioEndPoint service = retrofit.create(PortfolioEndPoint.class);
+
+        final Call<PortfolioScheme> apiCall = service.getPortfolioData(1);
+
+        apiCall.enqueue(new Callback<PortfolioScheme>() {
+            @Override
+            public void onResponse(Call<PortfolioScheme> call, Response<PortfolioScheme> response) {
+
+                Log.i("RETROFIT", "onResponse Called");
+
+                PortfolioScheme portfolioData = response.body();
+
+                if (portfolioData == null) {
+                    Toast.makeText(getActivity(), "Something wrong happened, Please try later.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                //storePortfolioInternally();
+
+                profileData = portfolioData.getProfileScheme();
+
+                fillViews();
+                holder.swipeContainer.setRefreshing(false);
+
+            }
+
+            @Override
+            public void onFailure(Call<PortfolioScheme> call, Throwable t) {
+
+                Toast.makeText(getActivity(), "Service Call Failure \n" + t.getMessage(), Toast.LENGTH_LONG).show();
+                String err = (t.getMessage() == null) ? "Failure" : t.getMessage();
+                Log.e("RETROFIT", err);
+                holder.swipeContainer.setRefreshing(false);
+
+            }
+        });
+
+    }
+
     @Override
     public void onAttach(Activity activity) {
         context = (FragmentActivity) activity;
         super.onAttach(activity);
     }
 
+    @Override
+    public void onRefresh() {
+
+        retrievePortfolioData();
+
+    }
+
     private class ViewHolder {
         SimpleDraweeView ivProfilePicture;
         TextView tvName, tvPosition;
+        SwipeRefreshLayout swipeContainer;
     }
+
 }

@@ -3,6 +3,7 @@ package com.shahinjo.thingy.shahinportfolio.Adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProjectScheme;
 import com.shahinjo.thingy.shahinportfolio.Managers.TextManager;
@@ -72,6 +75,7 @@ public class ProjectsAdapter extends ArrayAdapter<ProjectScheme> {
 
         return convertView;
     }
+
 
     class ViewHolder {
 

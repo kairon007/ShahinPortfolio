@@ -140,7 +140,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<PortfolioScheme> call, Throwable t) {
 
-                Toast.makeText(MainActivity.this, "Service Call Failure \n" + t.getMessage(), Toast.LENGTH_LONG).show();
+                String err = t.getMessage() == null ? "Failure" : t.getMessage();
+                Toast.makeText(MainActivity.this, "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
                 Log.e("RETROFIT", t.getMessage());
 
             }
