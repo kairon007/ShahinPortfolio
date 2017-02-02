@@ -12,6 +12,9 @@ public class PortfolioScheme implements Serializable {
     @SerializedName("ProfileScheme")
     @Expose
     private ProfileScheme profileScheme;
+    @SerializedName("ContactingList")
+    @Expose
+    private List<ContactingList> contactingList = null;
     @SerializedName("EducationTrainingScheme")
     @Expose
     private List<EducationTrainingScheme> educationTrainingScheme = null;
