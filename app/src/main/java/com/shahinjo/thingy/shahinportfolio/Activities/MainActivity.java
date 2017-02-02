@@ -1,5 +1,6 @@
 package com.shahinjo.thingy.shahinportfolio.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -232,7 +233,6 @@ public class MainActivity extends AppCompatActivity
                 fragment.setArguments(profileBundle);
             }
 
-
         } else if (id == R.id.nav_education_and_training) {
             fragment = new EducationAndTrainingFragment();
 
@@ -272,7 +272,6 @@ public class MainActivity extends AppCompatActivity
 
             }
 
-
         } else if (id == R.id.nav_skills) {
             fragment = new SkillsFragment();
 
@@ -285,7 +284,6 @@ public class MainActivity extends AppCompatActivity
                 fragment.setArguments(skillsBundle);
 
             }
-
 
         } else if (id == R.id.nav_languages) {
             fragment = new LanguagesFragment();
@@ -313,7 +311,17 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_share) {
-            //fragment = new AboutMeFragment();
+            try {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Shahin's Portfolio");
+                String sAux = "\nLet me recommend you this application\n\n";
+                sAux = sAux + "https://play.google.com/store/apps/details?id=com.shahinjo.thingy.shahinportfolio \n\n";
+                i.putExtra(Intent.EXTRA_TEXT, sAux);
+                startActivity(Intent.createChooser(i, "choose one"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else if (id == R.id.nav_blog) {
             //fragment = new AboutMeFragment();
@@ -325,7 +333,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         fragmentManager.beginTransaction().replace(R.id.ll_fragment_contents, fragment).commit();
-
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
