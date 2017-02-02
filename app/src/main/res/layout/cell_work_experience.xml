@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dip"
         android:text="1"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccentMid"
         android:textSize="48pt" />
 
     <!--<LinearLayout

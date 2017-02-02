@@ -6,11 +6,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ContactingListScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProfileScheme;
 import com.shahinjo.thingy.shahinportfolio.Fragments.ContactInformationFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.PersonalInfoFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.PersonalStatementFragment;
 import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by y.shahin on 1/29/2017.
@@ -23,11 +26,14 @@ public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
     PersonalInfoFragment tabPersonalInfo;
     PersonalStatementFragment tabPersonalStatement;
     ContactInformationFragment tabContactInfo;
-    private ProfileScheme profileData;
 
-    public ProfilePagerAdapter(FragmentManager fm, ProfileScheme profileData) {
+    private ProfileScheme profileData;
+    private ArrayList<ContactingListScheme> contactingListScheme;
+
+    public ProfilePagerAdapter(FragmentManager fm, ProfileScheme profileData, ArrayList<ContactingListScheme> contactingListScheme) {
         super(fm);
         this.profileData = profileData;
+        this.contactingListScheme = contactingListScheme;
     }
 
     @Override
@@ -54,7 +60,7 @@ public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 tabContactInfo = new ContactInformationFragment();
 
-                //bundle.putSerializable(ConstantsManager.KEY_BUNDLE_CONTACT, profileData.get);
+                bundle.putSerializable(ConstantsManager.KEY_BUNDLE_CONTACT, contactingListScheme);
 
                 tabContactInfo.setArguments(bundle);
                 return tabContactInfo;

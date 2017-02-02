@@ -12,9 +12,9 @@ public class PortfolioScheme implements Serializable {
     @SerializedName("ProfileScheme")
     @Expose
     private ProfileScheme profileScheme;
-    @SerializedName("ContactingList")
+    @SerializedName("ContactingListScheme")
     @Expose
-    private List<ContactingList> contactingList = null;
+    private List<ContactingListScheme> contactingListScheme = null;
     @SerializedName("EducationTrainingScheme")
     @Expose
     private List<EducationTrainingScheme> educationTrainingScheme = null;
@@ -90,4 +90,11 @@ public class PortfolioScheme implements Serializable {
         this.hobbyInterestScheme = hobbyInterestScheme;
     }
 
+    public List<ContactingListScheme> getContactingListScheme() {
+        return contactingListScheme;
+    }
+
+    public void setContactingListScheme(List<ContactingListScheme> contactingListScheme) {
+        this.contactingListScheme = contactingListScheme;
+    }
 }

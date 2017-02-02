@@ -7,7 +7,9 @@ package com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ContactingList {
+import java.io.Serializable;
+
+public class ContactingListScheme implements Serializable {
 
     @SerializedName("pi_id")
     @Expose

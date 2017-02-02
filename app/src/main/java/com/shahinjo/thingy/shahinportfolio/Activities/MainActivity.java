@@ -1,6 +1,7 @@
 package com.shahinjo.thingy.shahinportfolio.Activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,10 +18,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ContactingListScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.EducationTrainingScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.LanguageScheme;
@@ -61,6 +65,10 @@ public class MainActivity extends AppCompatActivity
     PortfolioScheme portfolioData;
     FragmentManager fragmentManager;
 
+    SimpleDraweeView draweeProfileImage;
+    TextView tvFullName, tvAccountMail;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +92,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.getHeaderView(0);
+
+        draweeProfileImage = (SimpleDraweeView) headerLayout.findViewById(R.id.iv_profile_picture);
+        tvFullName = (TextView) headerLayout.findViewById(R.id.tv_full_name);
+        tvAccountMail = (TextView) headerLayout.findViewById(R.id.tv_account_email);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
@@ -118,6 +132,12 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(MainActivity.this, "Something wrong happened, Please try later.", Toast.LENGTH_LONG).show();
                     return;
                 }
+                Uri imageUri = Uri.parse(portfolioData.getProfileScheme().getPiProfileImagePath());
+                draweeProfileImage.setImageURI(imageUri);
+
+                tvFullName.setText(portfolioData.getProfileScheme().getPiFullName());
+                tvAccountMail.setText(portfolioData.getProfileScheme().getPiPosition());
+
                 storePortfolioInternally();
 
                 Fragment fragment = new ProfileFragment();
@@ -127,13 +147,13 @@ public class MainActivity extends AppCompatActivity
                 if (portfolioData != null) {
                     profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_PROFILE, portfolioData.getProfileScheme());
 
+                    ArrayList<ContactingListScheme> contactingList = new ArrayList<>(portfolioData.getContactingListScheme());
+                    profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_CONTACT, contactingList);
+
                     fragment.setArguments(profileBundle);
                 }
 
                 fragmentManager.beginTransaction().replace(R.id.ll_fragment_contents, fragment).commit();
-
-                //String message = String.format("Welcom %s \n %s", portfolioData.getProfileScheme().getPiFullName(), portfolioData.getProfileScheme().getPiPosition());
-                //Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
 
 
             }
@@ -229,6 +249,9 @@ public class MainActivity extends AppCompatActivity
 
             if (portfolioData != null) {
                 profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_PROFILE, portfolioData.getProfileScheme());
+
+                ArrayList<ContactingListScheme> contactingList = new ArrayList<>(portfolioData.getContactingListScheme());
+                profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_CONTACT, contactingList);
 
                 fragment.setArguments(profileBundle);
             }

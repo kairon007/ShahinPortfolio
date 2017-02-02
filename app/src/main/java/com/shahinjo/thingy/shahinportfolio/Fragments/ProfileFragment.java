@@ -22,11 +22,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shahinjo.thingy.shahinportfolio.Activities.MainActivity;
 import com.shahinjo.thingy.shahinportfolio.Adapters.ProfilePagerAdapter;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ContactingListScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProfileScheme;
 import com.shahinjo.thingy.shahinportfolio.Managers.ConstantsManager;
 import com.shahinjo.thingy.shahinportfolio.Managers.PortfolioEndPoint;
 import com.shahinjo.thingy.shahinportfolio.R;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +44,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProfileFragment extends Fragment {
 
     ProfileScheme profileData;
+    ArrayList<ContactingListScheme> contactingList;
+
     ProfilePagerAdapter adapter;
     private FragmentActivity context;
     private ViewHolder holder;
@@ -55,6 +60,8 @@ public class ProfileFragment extends Fragment {
         holder = new ViewHolder();
 
         profileData = (ProfileScheme) getArguments().getSerializable(ConstantsManager.KEY_BUNDLE_PROFILE);
+        contactingList = (ArrayList<ContactingListScheme>) getArguments().getSerializable(ConstantsManager.KEY_BUNDLE_CONTACT);
+
 
         onCreateViews(view);
 
@@ -68,7 +75,7 @@ public class ProfileFragment extends Fragment {
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
         adapter = new ProfilePagerAdapter
-                (context.getSupportFragmentManager(), profileData);
+                (context.getSupportFragmentManager(), profileData, contactingList);
 
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

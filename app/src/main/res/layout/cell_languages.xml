@@ -10,7 +10,7 @@
         android:id="@+id/doughnut"
         android:layout_width="128dip"
         android:layout_height="128dip"
-        app:fdColorPrimary="@color/colorPrimaryDark" />
+        app:fdColorPrimary="@color/colorAccentMid" />
 
 
     <TextView

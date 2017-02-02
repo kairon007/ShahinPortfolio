@@ -27,7 +27,7 @@
             fresco:roundBottomRight="false"
             fresco:roundedCornerRadius="5dp"
             fresco:roundingBorderColor="@color/colorAccent"
-            fresco:roundingBorderWidth="1dp" />
+            fresco:roundingBorderWidth="2dp" />
 
         <!--<ImageView
             android:id="@+id/iv_profile_picture"
