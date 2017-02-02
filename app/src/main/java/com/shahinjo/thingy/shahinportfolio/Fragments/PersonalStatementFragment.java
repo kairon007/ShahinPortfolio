@@ -18,24 +18,36 @@ import com.shahinjo.thingy.shahinportfolio.R;
 
 public class PersonalStatementFragment extends Fragment {
 
+    ViewHolder holder;
+    String personalStatement;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_statement, container, false);
-        ViewHolder holder = new ViewHolder();
+        holder = new ViewHolder();
 
         holder.tvPersonalStatement = (TextView) view.findViewById(R.id.tv_personal_statement);
 
-        String personalStatement = getArguments().getString(ConstantsManager.KEY_BUNDLE_PERSONAL_STATEMENT);
-
-        holder.tvPersonalStatement.setText(TextManager.removeBreakLinCharacters(personalStatement));
+        refresh();
 
         return view;
+    }
 
+    private void fillViews() {
+        holder.tvPersonalStatement.setText(TextManager.removeBreakLinCharacters(personalStatement));
+    }
+
+    public void refresh() {
+        personalStatement = getArguments().getString(ConstantsManager.KEY_BUNDLE_PERSONAL_STATEMENT);
+
+        fillViews();
     }
 
     private class ViewHolder {
         TextView tvPersonalStatement;
     }
+
+
 }

@@ -106,7 +106,7 @@ public class LanguagesFragment extends Fragment implements SwipeRefreshLayout.On
             @Override
             public void onFailure(Call<ArrayList<LanguageScheme>> call, Throwable t) {
 
-                String err = t.getMessage() == null ? "Failure" : t.getMessage();
+                String err = t.getMessage() == null ? "" : t.getMessage();
                 Toast.makeText(getActivity(), "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
                 Log.e("RETROFIT", err);
                 swipeContainer.setRefreshing(false);

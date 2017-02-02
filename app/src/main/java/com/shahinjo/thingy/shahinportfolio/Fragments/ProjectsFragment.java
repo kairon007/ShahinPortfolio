@@ -1,6 +1,8 @@
 package com.shahinjo.thingy.shahinportfolio.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by shahin on 1/19/17.
  */
 
-public class ProjectsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ProjectsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     ArrayList<ProjectScheme> projectsList;
     private Context context;
@@ -58,6 +61,8 @@ public class ProjectsFragment extends Fragment implements SwipeRefreshLayout.OnR
         projectsList = (ArrayList<ProjectScheme>) getArguments().getSerializable("projects_data");
 
         fillData();
+
+        lvProjects.setOnItemClickListener(this);
 
         return rootView;
     }
@@ -106,13 +111,32 @@ public class ProjectsFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onFailure(Call<ArrayList<ProjectScheme>> call, Throwable t) {
 
-                String err = t.getMessage() == null ? "Failure" : t.getMessage();
+                String err = t.getMessage() == null ? "" : t.getMessage();
                 Toast.makeText(getActivity(), "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
                 Log.e("RETROFIT", err);
                 swipeContainer.setRefreshing(false);
 
             }
         });
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        ProjectScheme currentProjectScheme = projectsList.get(position);
+
+        if (currentProjectScheme.getpPackageName() == null || currentProjectScheme.getpPackageName().trim().equals(""))
+            return;
+
+
+        String appPackageName = currentProjectScheme.getpPackageName();
+
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
 
     }
 }

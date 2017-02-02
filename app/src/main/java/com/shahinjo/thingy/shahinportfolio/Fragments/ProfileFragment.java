@@ -38,11 +38,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by y.shahin on 1/29/2017.
  */
 
-public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ProfileFragment extends Fragment {
 
     ProfileScheme profileData;
+    ProfilePagerAdapter adapter;
     private FragmentActivity context;
     private ViewHolder holder;
+
     public ProfileFragment() {
     }
 
@@ -65,12 +67,12 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
-        final ProfilePagerAdapter adapter = new ProfilePagerAdapter
+        adapter = new ProfilePagerAdapter
                 (context.getSupportFragmentManager(), profileData);
 
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -94,7 +96,6 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
         holder.ivProfilePicture = (SimpleDraweeView) view.findViewById(R.id.iv_profile_picture);
         holder.tvName = (TextView) view.findViewById(R.id.tv_name);
         holder.tvPosition = (TextView) view.findViewById(R.id.tv_position);
-        holder.swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
 
     }
 
@@ -105,7 +106,7 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
         holder.tvName.setText(profileData.getPiFullName());
         holder.tvPosition.setText(profileData.getPiPosition());
 
-        holder.swipeContainer.setOnRefreshListener(this);
+
     }
 
     private void retrievePortfolioData() {
@@ -135,22 +136,18 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     Toast.makeText(getActivity(), "Something wrong happened, Please try later.", Toast.LENGTH_LONG).show();
                     return;
                 }
-                //storePortfolioInternally();
 
                 profileData = portfolioData.getProfileScheme();
 
                 fillViews();
-                holder.swipeContainer.setRefreshing(false);
-
             }
 
             @Override
             public void onFailure(Call<PortfolioScheme> call, Throwable t) {
 
-                Toast.makeText(getActivity(), "Service Call Failure \n" + t.getMessage(), Toast.LENGTH_LONG).show();
-                String err = (t.getMessage() == null) ? "Failure" : t.getMessage();
+                String err = t.getMessage() == null ? "" : t.getMessage();
+                Toast.makeText(getActivity(), "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
                 Log.e("RETROFIT", err);
-                holder.swipeContainer.setRefreshing(false);
 
             }
         });
@@ -163,17 +160,11 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
         super.onAttach(activity);
     }
 
-    @Override
-    public void onRefresh() {
-
-        retrievePortfolioData();
-
-    }
-
     private class ViewHolder {
         SimpleDraweeView ivProfilePicture;
         TextView tvName, tvPosition;
-        SwipeRefreshLayout swipeContainer;
+
     }
+
 
 }

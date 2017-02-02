@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ProfileScheme;
 import com.shahinjo.thingy.shahinportfolio.Fragments.ContactInformationFragment;
@@ -19,7 +20,9 @@ public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
 
 
     private static final int PAGES_COUNT = 3;
-
+    PersonalInfoFragment tabPersonalInfo;
+    PersonalStatementFragment tabPersonalStatement;
+    ContactInformationFragment tabContactInfo;
     private ProfileScheme profileData;
 
     public ProfilePagerAdapter(FragmentManager fm, ProfileScheme profileData) {
@@ -34,7 +37,7 @@ public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                PersonalInfoFragment tabPersonalInfo = new PersonalInfoFragment();
+                tabPersonalInfo = new PersonalInfoFragment();
                 bundle.putString(ConstantsManager.KEY_BUNDLE_BIRTH_DATE, profileData.getPiBirthDate());
                 bundle.putString(ConstantsManager.KEY_BUNDLE_NATIONALITY, profileData.getPiNationality());
                 bundle.putString(ConstantsManager.KEY_BUNDLE_MARTIAL_STATE, profileData.getPiMartialState());
@@ -42,14 +45,14 @@ public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
                 tabPersonalInfo.setArguments(bundle);
                 return tabPersonalInfo;
             case 1:
-                PersonalStatementFragment tabPersonalStatement = new PersonalStatementFragment();
+                tabPersonalStatement = new PersonalStatementFragment();
 
                 bundle.putString(ConstantsManager.KEY_BUNDLE_PERSONAL_STATEMENT, profileData.getPiPersonalStatement());
 
                 tabPersonalStatement.setArguments(bundle);
                 return tabPersonalStatement;
             case 2:
-                ContactInformationFragment tabContactInfo = new ContactInformationFragment();
+                tabContactInfo = new ContactInformationFragment();
 
                 //bundle.putSerializable(ConstantsManager.KEY_BUNDLE_CONTACT, profileData.get);
 
@@ -64,4 +67,5 @@ public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return PAGES_COUNT;
     }
+
 }

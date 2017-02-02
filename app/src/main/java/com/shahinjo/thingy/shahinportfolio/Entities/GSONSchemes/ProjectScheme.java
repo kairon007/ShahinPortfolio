@@ -26,6 +26,9 @@ public class ProjectScheme implements Serializable {
     @SerializedName("p_image_path")
     @Expose
     private String pImagePath;
+    @SerializedName("p_package_name")
+    @Expose
+    private String pPackageName;
     @SerializedName("p_link")
     @Expose
     private String pLink;
@@ -97,4 +100,11 @@ public class ProjectScheme implements Serializable {
         this.piId = piId;
     }
 
+    public String getpPackageName() {
+        return pPackageName;
+    }
+
+    public void setpPackageName(String pPackageName) {
+        this.pPackageName = pPackageName;
+    }
 }

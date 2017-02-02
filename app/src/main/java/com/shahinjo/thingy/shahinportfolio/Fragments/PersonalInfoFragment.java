@@ -17,28 +17,39 @@ import com.shahinjo.thingy.shahinportfolio.R;
 
 public class PersonalInfoFragment extends Fragment {
 
+    ViewHolder holder;
+    String birthDate, nationality, martialState, address;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_info, container, false);
-        ViewHolder holder = new ViewHolder();
+        holder = new ViewHolder();
 
         holder.tvBirthDate = (TextView) view.findViewById(R.id.tv_birth_date);
         holder.tvNationality = (TextView) view.findViewById(R.id.tv_nationality);
         holder.tvMartialState = (TextView) view.findViewById(R.id.tv_martial_state);
         holder.tvAddress = (TextView) view.findViewById(R.id.tv_address);
 
-        String birthDate = getArguments().getString(ConstantsManager.KEY_BUNDLE_BIRTH_DATE);
-        String nationality = getArguments().getString(ConstantsManager.KEY_BUNDLE_NATIONALITY);
-        String martialState = getArguments().getString(ConstantsManager.KEY_BUNDLE_MARTIAL_STATE);
-        String address = getArguments().getString(ConstantsManager.KEY_BUNDLE_ADDRESS);
+        refresh();
 
+        return view;
+    }
+
+    private void fillViews() {
         holder.tvBirthDate.setText(birthDate);
         holder.tvNationality.setText(nationality);
         holder.tvMartialState.setText(martialState);
         holder.tvAddress.setText(address);
+    }
 
-        return view;
+    public void refresh() {
+        birthDate = getArguments().getString(ConstantsManager.KEY_BUNDLE_BIRTH_DATE);
+        nationality = getArguments().getString(ConstantsManager.KEY_BUNDLE_NATIONALITY);
+        martialState = getArguments().getString(ConstantsManager.KEY_BUNDLE_MARTIAL_STATE);
+        address = getArguments().getString(ConstantsManager.KEY_BUNDLE_ADDRESS);
+
+        fillViews();
     }
 
     private class ViewHolder {

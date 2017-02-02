@@ -108,7 +108,7 @@ public class SkillsFragment extends Fragment implements SwipeRefreshLayout.OnRef
             @Override
             public void onFailure(Call<ArrayList<SkillScheme>> call, Throwable t) {
 
-                String err = t.getMessage() == null ? "Failure" : t.getMessage();
+                String err = t.getMessage() == null ? "" : t.getMessage();
                 Toast.makeText(getActivity(), "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
                 Log.e("RETROFIT", err);
                 swipeContainer.setRefreshing(false);

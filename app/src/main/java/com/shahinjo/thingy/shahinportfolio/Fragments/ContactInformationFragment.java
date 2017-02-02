@@ -23,4 +23,8 @@ public class ContactInformationFragment extends Fragment {
 
         return view;
     }
+
+    public void refresh() {
+
+    }
 }

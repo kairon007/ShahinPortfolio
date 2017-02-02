@@ -69,14 +69,8 @@ public class ProjectsAdapter extends ArrayAdapter<ProjectScheme> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        /*holder.tvName.setText(currentProject.getPName());
-        holder.tvDescription.setText(currentProject.getPDescription());
-        holder.tvTeam.setText(currentProject.getPTeamCompany());*/
-
         return convertView;
     }
-
-
     class ViewHolder {
 
         SimpleDraweeView ivImage;
