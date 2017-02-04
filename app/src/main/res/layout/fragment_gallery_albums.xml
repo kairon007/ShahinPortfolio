@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <ListView
-        android:id="@+id/list_skills"
+        android:id="@+id/lv_gallery_albums"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null">
+        android:divider="@null"
+        android:orientation="vertical">
+
 
     </ListView>
 

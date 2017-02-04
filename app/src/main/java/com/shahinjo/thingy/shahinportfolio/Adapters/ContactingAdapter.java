@@ -58,11 +58,8 @@ public class ContactingAdapter extends ArrayAdapter<ContactingListScheme> {
 
         } else {
             holder = (ViewHolder) convertView.getTag();
-        }
 
-        /*holder.tvName.setText(currentProject.getPName());
-        holder.tvDescription.setText(currentProject.getPDescription());
-        holder.tvTeam.setText(currentProject.getPTeamCompany());*/
+        }
 
         return convertView;
     }
@@ -71,4 +68,6 @@ public class ContactingAdapter extends ArrayAdapter<ContactingListScheme> {
         SimpleDraweeView ivContactImage;
         TextView tvContactValue;
     }
+
+
 }

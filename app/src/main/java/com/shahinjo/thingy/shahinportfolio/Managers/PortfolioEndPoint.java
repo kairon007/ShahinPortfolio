@@ -1,6 +1,8 @@
 package com.shahinjo.thingy.shahinportfolio.Managers;
 
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.AlbumImagesScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.EducationTrainingScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.GalleryAlbumsScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.LanguageScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
@@ -42,6 +44,12 @@ public interface PortfolioEndPoint {
 
     @GET("operations.php")
     Call<ArrayList<HobbyInterestScheme>> getHobbiesData(@Query("user_id") int user_id, @Query("operation") int operation);
+
+    @GET("operations.php")
+    Call<ArrayList<GalleryAlbumsScheme>> getGalleryAlbumsData(@Query("user_id") int user_id, @Query("operation") int operation);
+
+    @GET("operations.php")
+    Call<ArrayList<AlbumImagesScheme>> getAlbumImagesData(@Query("user_id") int user_id, @Query("operation") int operation, @Query("album_id") int album_id);
 
 
 }

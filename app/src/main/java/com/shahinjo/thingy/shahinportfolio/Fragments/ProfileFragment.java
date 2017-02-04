@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_personal));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_statement));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_summary));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_contact_light));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

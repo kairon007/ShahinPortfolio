@@ -36,6 +36,9 @@ public interface ConstantsManager {
     String KEY_PROFILE_PERSONAL_STATEMENT = "prefs.profile.personal_statement";
 
     String KEY_BUNDLE_PROFILE = "profile_data";
+    String KEY_BUNDLE_PERSONAL_STATEMENT = "personal_statement";
+    String KEY_BUNDLE_CONTACT = "contact_info";
+
     String KEY_BUNDLE_EDUCATION = "education_data";
     String KEY_BUNDLE_WORK_EXPERIENCE = "work_experience_data";
     String KEY_BUNDLE_PROJECTS = "projects_data";
@@ -48,10 +51,12 @@ public interface ConstantsManager {
     String KEY_BUNDLE_MARTIAL_STATE = "martial_state";
     String KEY_BUNDLE_ADDRESS = "address";
 
-    String KEY_BUNDLE_PERSONAL_STATEMENT = "personal_statement";
+    String KEY_BUNDLE_GALLERY_ID = "gallery_id";
+    String KEY_BUNDLE_ALBUM_ID = "album_id";
+
+    String KEY_BUNDLE_ALBUM_IMAGES = "album_images";
 
 
-    String KEY_BUNDLE_CONTACT = "contact_info";
 
 
 
@@ -80,6 +85,8 @@ public interface ConstantsManager {
     int OPERATION_SKILLS = 4;
     int OPERATION_LANGUAGES = 6;
     int OPERATION_HOBBIES_AND_INTERESTS = 7;
+    int OPERATION_GALLERY_ALBUMS = 8;
+    int OPERATION_ALBUM_IMAGES = 9;
 
 
 }

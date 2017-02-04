@@ -57,7 +57,7 @@ public class SkillsFragment extends Fragment implements SwipeRefreshLayout.OnRef
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         swipeContainer.setOnRefreshListener(this);
 
-        skillsData = (ArrayList<SkillScheme>) getArguments().getSerializable("skills_data");
+        skillsData = (ArrayList<SkillScheme>) getArguments().getSerializable(ConstantsManager.KEY_BUNDLE_SKILLS);
 
         fillData();
 

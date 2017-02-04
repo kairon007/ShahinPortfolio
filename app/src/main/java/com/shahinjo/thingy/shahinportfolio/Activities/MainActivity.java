@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.ContactingListScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.EducationTrainingScheme;
+import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.GalleryAlbumsScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.HobbyInterestScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.LanguageScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.PortfolioScheme;
@@ -34,6 +35,7 @@ import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.SkillScheme;
 import com.shahinjo.thingy.shahinportfolio.Entities.GSONSchemes.WorkExperienceScheme;
 import com.shahinjo.thingy.shahinportfolio.Fragments.AboutMeFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.EducationAndTrainingFragment;
+import com.shahinjo.thingy.shahinportfolio.Fragments.GalleryAlbumsFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.HobbiesAndInterestsFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.LanguagesFragment;
 import com.shahinjo.thingy.shahinportfolio.Fragments.ProfileFragment;
@@ -47,6 +49,7 @@ import com.shahinjo.thingy.shahinportfolio.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     PortfolioScheme portfolioData;
+    ArrayList<GalleryAlbumsScheme> galleryAlbumsData;
+
     FragmentManager fragmentManager;
 
     SimpleDraweeView draweeProfileImage;
@@ -105,70 +110,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void retrievePortfolioData() {
-
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ConstantsManager.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        PortfolioEndPoint service = retrofit.create(PortfolioEndPoint.class);
-
-        final Call<PortfolioScheme> apiCall = service.getPortfolioData(1);
-
-        apiCall.enqueue(new Callback<PortfolioScheme>() {
-            @Override
-            public void onResponse(Call<PortfolioScheme> call, Response<PortfolioScheme> response) {
-
-                Log.i("RETROFIT", "onResponse Called");
-
-                portfolioData = response.body();
-
-                if (portfolioData == null) {
-                    Toast.makeText(MainActivity.this, "Something wrong happened, Please try later.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Uri imageUri = Uri.parse(portfolioData.getProfileScheme().getPiProfileImagePath());
-                draweeProfileImage.setImageURI(imageUri);
-
-                tvFullName.setText(portfolioData.getProfileScheme().getPiFullName());
-                tvAccountMail.setText(portfolioData.getProfileScheme().getPiPosition());
-
-                storePortfolioInternally();
-
-                Fragment fragment = new ProfileFragment();
-
-                Bundle profileBundle = new Bundle();
-
-                if (portfolioData != null) {
-                    profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_PROFILE, portfolioData.getProfileScheme());
-
-                    ArrayList<ContactingListScheme> contactingList = new ArrayList<>(portfolioData.getContactingListScheme());
-                    profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_CONTACT, contactingList);
-
-                    fragment.setArguments(profileBundle);
-                }
-
-                fragmentManager.beginTransaction().replace(R.id.ll_fragment_contents, fragment).commit();
-
-
-            }
-
-            @Override
-            public void onFailure(Call<PortfolioScheme> call, Throwable t) {
-
-                String err = t.getMessage() == null ? "Failure" : t.getMessage();
-                Toast.makeText(MainActivity.this, "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
-                Log.e("RETROFIT", t.getMessage());
-
-            }
-        });
-
-    }
 
     private void storePortfolioInternally() {
         InternalStorageManager.writePortfolioListToFile(MainActivity.this, ConstantsManager.FILE_NAME_PORTFOLIO, portfolioData);
@@ -334,20 +275,14 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_share) {
-            try {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_SUBJECT, "Shahin's Portfolio");
-                String sAux = "\nLet me recommend you this application\n\n";
-                sAux = sAux + "https://play.google.com/store/apps/details?id=com.shahinjo.thingy.shahinportfolio \n\n";
-                i.putExtra(Intent.EXTRA_TEXT, sAux);
-                startActivity(Intent.createChooser(i, "choose one"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            actionSharePortfolio();
         } else if (id == R.id.nav_blog) {
             //fragment = new AboutMeFragment();
+        } else if (id == R.id.nav_gallery) {
+            fragment = new GalleryAlbumsFragment();
+
+            //retrieveGalleryData();
+
         }
 
         if (fragment == null) {
@@ -359,5 +294,127 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void actionSharePortfolio() {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "Shahin's Portfolio");
+            String sAux = "\nLet me recommend you this application\n\n";
+            sAux = sAux + "https://play.google.com/store/apps/details?id=com.shahinjo.thingy.shahinportfolio \n\n";
+            i.putExtra(Intent.EXTRA_TEXT, sAux);
+            startActivity(Intent.createChooser(i, "choose one"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void retrievePortfolioData() {
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ConstantsManager.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        PortfolioEndPoint service = retrofit.create(PortfolioEndPoint.class);
+
+        final Call<PortfolioScheme> apiCall = service.getPortfolioData(1);
+
+        apiCall.enqueue(new Callback<PortfolioScheme>() {
+            @Override
+            public void onResponse(Call<PortfolioScheme> call, Response<PortfolioScheme> response) {
+
+                Log.i("RETROFIT", "onResponse Called");
+
+                portfolioData = response.body();
+
+                if (portfolioData == null) {
+                    Toast.makeText(MainActivity.this, "Something wrong happened, Please try later.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Uri imageUri = Uri.parse(portfolioData.getProfileScheme().getPiProfileImagePath());
+                draweeProfileImage.setImageURI(imageUri);
+
+                tvFullName.setText(portfolioData.getProfileScheme().getPiFullName());
+                tvAccountMail.setText(portfolioData.getProfileScheme().getPiPosition());
+
+                storePortfolioInternally();
+
+                Fragment fragment = new ProfileFragment();
+
+                Bundle profileBundle = new Bundle();
+
+                if (portfolioData != null) {
+                    profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_PROFILE, portfolioData.getProfileScheme());
+
+                    ArrayList<ContactingListScheme> contactingList = new ArrayList<>(portfolioData.getContactingListScheme());
+                    profileBundle.putSerializable(ConstantsManager.KEY_BUNDLE_CONTACT, contactingList);
+
+                    fragment.setArguments(profileBundle);
+                }
+
+                fragmentManager.beginTransaction().replace(R.id.ll_fragment_contents, fragment).commit();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<PortfolioScheme> call, Throwable t) {
+
+                String err = t.getMessage() == null ? "Failure" : t.getMessage();
+                Toast.makeText(MainActivity.this, "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
+                Log.e("RETROFIT", t.getMessage());
+
+            }
+        });
+
+    }
+
+
+    private void retrieveGalleryData() {
+
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ConstantsManager.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        PortfolioEndPoint service = retrofit.create(PortfolioEndPoint.class);
+
+        Call<ArrayList<GalleryAlbumsScheme>> apiCall = service.getGalleryAlbumsData(1, ConstantsManager.OPERATION_HOBBIES_AND_INTERESTS);
+
+        apiCall.enqueue(new Callback<ArrayList<GalleryAlbumsScheme>>() {
+            @Override
+            public void onResponse(Call<ArrayList<GalleryAlbumsScheme>> call, Response<ArrayList<GalleryAlbumsScheme>> response) {
+
+                Log.i("RETROFIT", "onResponse Called");
+
+                galleryAlbumsData = response.body();
+
+                if (galleryAlbumsData == null) {
+                    Toast.makeText(MainActivity.this, "Something wrong happened, Please try later.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<GalleryAlbumsScheme>> call, Throwable t) {
+
+                galleryAlbumsData = new ArrayList<GalleryAlbumsScheme>();
+
+                String err = t.getMessage() == null ? "Failure" : t.getMessage();
+                Toast.makeText(MainActivity.this, "Service Call Failure \n" + err, Toast.LENGTH_LONG).show();
+                Log.e("RETROFIT", t.getMessage());
+
+            }
+        });
     }
 }
